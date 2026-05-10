@@ -543,7 +543,7 @@ function v(id){return(document.getElementById(id)?.value||'').trim();}
 async function callGemini(prompt,json=false){
   const key=gk();
   if(!key)throw new Error('Please paste your free Gemini API key at the top of the page. Get one free at aistudio.google.com/apikey');
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+  const url=`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
   const cfg={temperature:json?0.3:0.82,maxOutputTokens:json?2048:1200};
   if(json)cfg.responseMimeType='application/json';
   const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:cfg})});
