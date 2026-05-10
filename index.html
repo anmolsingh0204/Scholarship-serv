@@ -540,22 +540,43 @@ function toast(msg,type='info',dur=3500){
 function gk(){return(document.getElementById('apiKey')?.value||'').trim();}
 function v(id){return(document.getElementById(id)?.value||'').trim();}
 
-async function callGemini(prompt,json=false){
-  const key=gk();
-  if(!key)throw new Error('Please paste your free Gemini API key at the top of the page. Get one free at aistudio.google.com/apikey');
-  const url=`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
-  const cfg={temperature:json?0.3:0.82,maxOutputTokens:json?2048:1200};
-  if(json)cfg.responseMimeType='application/json';
-  const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:cfg})});
-  if(!resp.ok){
-    const e=await resp.json().catch(()=>({}));
-    const msg=e?.error?.message||`HTTP ${resp.status}`;
-    if(resp.status===400)throw new Error('Invalid API key. Get a free one at aistudio.google.com/apikey');
-    if(resp.status===429)throw new Error('Rate limit reached — wait 1 minute (free tier: 15 req/min)');
-    throw new Error(msg);
+async function callGemini(prompt){
+
+  const key = gk();
+
+  if(!key){
+    throw new Error("Please paste your Gemini API key");
   }
-  const d=await resp.json();
-  return d?.candidates?.[0]?.content?.parts?.[0]?.text||'';
+
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
+
+  const response = await fetch(url,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      contents:[
+        {
+          parts:[
+            {
+              text: prompt
+            }
+          ]
+        }
+      ]
+    })
+  });
+
+  const data = await response.json();
+
+  if(!response.ok){
+    throw new Error(
+      data?.error?.message || "Gemini API request failed"
+    );
+  }
+
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 }
 
 async function findScholarships(){
