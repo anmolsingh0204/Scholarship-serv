@@ -37,7 +37,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .api-strip input::placeholder{color:var(--muted);}
 .api-btn{display:flex;align-items:center;padding:0 15px;background:var(--amber);color:#000;font-size:0.78rem;font-weight:600;border:none;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background 0.2s;}
 .api-btn:hover{background:var(--amber2);}
-.api-note{max-width:580px;margin:9px auto 0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:0.71rem;color:var(--muted);}
+.api-note{max-width:580px;margin:9px auto 0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:0.71rem;color:var(--muted);flex-wrap:wrap;}
 .api-note span{display:flex;align-items:center;gap:4px;}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;}
 .mode-tabs{display:flex;align-items:center;justify-content:center;padding:28px 24px 0;}
@@ -50,7 +50,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.45s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .card-hd{display:flex;align-items:center;gap:12px;padding:16px 20px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
-.card-ico{width:34px;height:34px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.card-ico{width:34px;height:34px;border-radius:8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--white);}
 .card-sub{font-size:0.72rem;color:var(--muted);margin-top:1px;}
 .card-body{padding:18px 20px 20px;}
@@ -66,8 +66,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);}
 input:focus,select:focus,textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,0.12);}
 select option{background:var(--surface2);}
 textarea{min-height:78px;line-height:1.6;}
-.finder-grid{display:grid;grid-template-columns:355px 1fr;gap:20px;align-items:start;}
-@media(max-width:840px){.finder-grid{grid-template-columns:1fr;}}
+.finder-grid{display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start;}
+@media(max-width:900px){.finder-grid{grid-template-columns:1fr;}}
 .btn-gen{width:100%;padding:14px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;color:#000;background:var(--amber);border:none;border-radius:10px;cursor:pointer;transition:background 0.2s,transform 0.1s,box-shadow 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(245,158,11,0.25);margin-top:16px;}
 .btn-gen:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 6px 28px rgba(245,158,11,0.35);}
 .btn-gen:active{transform:translateY(0);}
@@ -141,7 +141,7 @@ textarea{min-height:78px;line-height:1.6;}
 .toast.success{background:#16a34a;}.toast.error{background:#dc2626;}.toast.info{background:var(--surface2);border:1px solid var(--border2);}
 footer{text-align:center;padding:26px 24px;font-size:0.74rem;color:var(--muted);border-top:1px solid var(--border);}
 footer a{color:var(--amber);text-decoration:none;}
-@media(max-width:580px){.hdr{padding:0 14px;}.main{padding:20px 12px 60px;}.mode-tab{padding:10px 14px;font-size:0.8rem;}}
+@media(max-width:580px){.hdr{padding:0 14px;}.main{padding:20px 12px 60px;}.mode-tab{padding:10px 14px;font-size:0.8rem;}.api-strip{flex-wrap:wrap;border-radius:10px;}.api-lbl{border-right:none;border-bottom:1.5px solid var(--border2);width:100%;border-radius:0;}.api-btn{padding:10px 15px;justify-content:center;}}
 </style>
 </head>
 <body>
@@ -206,7 +206,11 @@ footer a{color:var(--amber);text-decoration:none;}
                 <option>Czech Republic</option><option>Qatar</option><option>Saudi Arabia</option>
                 <option>Malaysia</option><option>Singapore</option><option>Netherlands</option>
                 <option>Sweden</option><option>Norway</option><option>Australia</option>
-                <option>Canada</option><option>USA</option>
+                <option>Canada</option><option>USA</option><option>UK</option>
+                <option>France</option><option>Switzerland</option><option>Austria</option>
+                <option>Belgium</option><option>Denmark</option><option>Finland</option>
+                <option>New Zealand</option><option>Ireland</option><option>Spain</option>
+                <option>Portugal</option><option>Greece</option><option>UAE</option>
               </select>
             </div>
             <div class="fg">
@@ -219,7 +223,7 @@ footer a{color:var(--amber);text-decoration:none;}
           <div class="form-row three">
             <div class="fg">
               <div class="field-label"><span class="req">*</span> CGPA</div>
-              <input type="text" id="f-cgpa" placeholder="e.g. 6.6"/>
+              <input type="number" step="0.01" id="f-cgpa" placeholder="e.g. 6.6"/>
             </div>
             <div class="fg">
               <div class="field-label"><span class="req">*</span> Out of</div>
@@ -230,11 +234,20 @@ footer a{color:var(--amber);text-decoration:none;}
             <div class="fg">
               <div class="field-label"><span class="req">*</span> Degree</div>
               <select id="f-degree">
-                <option>B.Tech / B.E.</option><option>BSc</option><option>BCA</option>
-                <option>MCA</option><option>Other Bachelor's</option>
+                <option>B.Tech / B.E.</option>
+                <option>B.Sc</option>
+                <option>BCA</option>
+                <option>B.Com</option>
+                <option>BBA</option>
+                <option>M.Tech / M.E.</option>
+                <option>M.Sc</option>
+                <option>MBA</option>
+                <option>MCA</option>
+                <option>Other</option>
               </select>
             </div>
           </div>
+
           <div class="fg">
             <div class="field-label"><span class="req">*</span> Your University</div>
             <input type="text" id="f-uni" placeholder="e.g. GLA University, Mathura (NAAC A+)"/>
@@ -252,7 +265,7 @@ footer a{color:var(--amber);text-decoration:none;}
             </div>
           </div>
 
-          <div class="sdiv">Experience & Projects <span class="opt" style="margin-left:4px;">boosts your score</span></div>
+          <div class="sdiv">Experience &amp; Projects <span class="opt" style="margin-left:4px;">boosts your score</span></div>
           <div class="fg">
             <div class="field-label">Internships / Work <span class="opt">optional</span></div>
             <input type="text" id="f-exp" placeholder="e.g. Data Science Intern, Coding Blocks (2024)"/>
@@ -446,7 +459,7 @@ footer a{color:var(--amber);text-decoration:none;}
 
           <div class="fg" style="margin-top:12px;">
             <div class="field-label">Extra instruction for AI <span class="opt">optional</span></div>
-            <input type="text" id="e-extra" placeholder="e.g. Include GitHub: github.com/anmolsingh0204/ipl-analytics · Keep under 220 words"/>
+            <input type="text" id="e-extra" placeholder="e.g. Include GitHub: github.com/anmolsingh0204 · Keep under 220 words"/>
           </div>
 
           <button class="btn-gen" id="emailBtn" onclick="generateEmail()">
@@ -500,316 +513,402 @@ footer a{color:var(--amber);text-decoration:none;}
 
 <div class="toast" id="toast"></div>
 
+<!-- ══════════════════ ALL JAVASCRIPT ══════════════════ -->
 <script>
-let emailType='professor',genSubject='',genBody='';
+let emailType = 'professor', genSubject = '', genBody = '';
 
-const SAVE_IDS=['apiKey','e-name','e-cgpa','e-degree','e-skills','e-projects','e-exp','e-goal','e-achieve','f-country','f-course','f-cgpa','f-scale','f-degree','f-uni','f-ielts','f-toefl','f-exp','f-projects','f-pubs','f-extra'];
+const SAVE_IDS = [
+  'apiKey','e-name','e-cgpa','e-degree','e-skills','e-projects','e-exp','e-goal','e-achieve',
+  'f-country','f-course','f-cgpa','f-scale','f-degree','f-uni','f-ielts','f-toefl',
+  'f-exp','f-projects','f-pubs','f-extra'
+];
 
-window.addEventListener('DOMContentLoaded',()=>{
-  SAVE_IDS.forEach(id=>{
-    const v=localStorage.getItem('sm3_'+id),el=document.getElementById(id);
-    if(v&&el)el.value=v;
+window.addEventListener('DOMContentLoaded', () => {
+  SAVE_IDS.forEach(id => {
+    const saved = localStorage.getItem('sm3_' + id);
+    const el = document.getElementById(id);
+    if (saved && el) el.value = saved;
   });
-  document.querySelectorAll('input,select,textarea').forEach(el=>{
-    if(el.id)el.addEventListener('input',()=>{try{localStorage.setItem('sm3_'+el.id,el.value);}catch(e){}});
+  document.querySelectorAll('input,select,textarea').forEach(el => {
+    if (el.id) el.addEventListener('input', () => {
+      try { localStorage.setItem('sm3_' + el.id, el.value); } catch(e) {}
+    });
   });
 });
 
-function switchMode(m){
-  ['finder','email'].forEach(x=>{
-    document.getElementById('mode-'+x).classList.toggle('active',x===m);
-    document.getElementById('panel-'+x).classList.toggle('active',x===m);
+function switchMode(m) {
+  ['finder','email'].forEach(x => {
+    document.getElementById('mode-' + x).classList.toggle('active', x === m);
+    document.getElementById('panel-' + x).classList.toggle('active', x === m);
   });
 }
 
-function setEtype(t){
-  emailType=t;
-  ['professor','scholarship','sop'].forEach(x=>document.getElementById('etab-'+x).classList.toggle('active',x===t));
-  document.getElementById('prof-fields').style.display=t==='professor'?'block':'none';
-  document.getElementById('sch-fields').style.display=t==='scholarship'?'block':'none';
-  document.getElementById('sop-fields').style.display=t==='sop'?'block':'none';
-  document.getElementById('etypeBadge').textContent=t==='professor'?'📧 Professor Cold Mail':t==='scholarship'?'🏆 Scholarship Cover Letter':'📄 SOP Opening Para';
-}
-
-function toast(msg,type='info',dur=3500){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type} show`;
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
-}
-
-function gk(){return(document.getElementById('apiKey')?.value||'').trim();}
-function v(id){return(document.getElementById(id)?.value||'').trim();}
-
-<script>
-async function callGemini(prompt){
-
-  const key = gk();
-
-  if(!key){
-    throw new Error("Please paste your Gemini API key");
-  }
-
-  const url =
-    `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
-
-  const response = await fetch(url,{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-
-    body:JSON.stringify({
-
-      contents:[
-        {
-          parts:[
-            {
-              text: prompt
-            }
-          ]
-        }
-      ],
-
-      generationConfig:{
-        temperature:0.7,
-        topP:0.9,
-        topK:40,
-        maxOutputTokens:1500
-      }
-
-    })
-  });
-
-  const data = await response.json();
-
-  if(!response.ok){
-
-    console.log("Gemini Error:", data);
-
-    if(response.status === 400){
-      throw new Error(
-        "Invalid Gemini API key or request."
-      );
-    }
-
-    if(response.status === 403){
-      throw new Error(
-        "Gemini API access denied. Enable Generative Language API in Google Cloud."
-      );
-    }
-
-    if(response.status === 429){
-      throw new Error(
-        "Free Gemini quota reached. Wait 1 minute and try again."
-      );
-    }
-
-    throw new Error(
-      data?.error?.message || "Gemini API request failed"
-    );
-  }
-
-  return (
-    data?.candidates?.[0]?.content?.parts?.[0]?.text || ""
+function setEtype(t) {
+  emailType = t;
+  ['professor','scholarship','sop'].forEach(x =>
+    document.getElementById('etab-' + x).classList.toggle('active', x === t)
   );
+  document.getElementById('prof-fields').style.display = t === 'professor' ? 'block' : 'none';
+  document.getElementById('sch-fields').style.display  = t === 'scholarship' ? 'block' : 'none';
+  document.getElementById('sop-fields').style.display  = t === 'sop' ? 'block' : 'none';
+  document.getElementById('etypeBadge').textContent =
+    t === 'professor' ? '📧 Professor Cold Mail' :
+    t === 'scholarship' ? '🏆 Scholarship Cover Letter' : '📄 SOP Opening Para';
 }
-</script>
 
-async function findScholarships(){
-  const country=v('f-country'),course=v('f-course'),cgpa=v('f-cgpa');
-  if(!country){toast('Please select a target country','error');return;}
-  if(!course){toast('Please enter your desired course','error');return;}
-  if(!cgpa){toast('Please enter your CGPA','error');return;}
-  const btn=document.getElementById('finderBtn');
-  btn.disabled=true;
-  document.getElementById('fBtnIco').innerHTML='<div class="spin"></div>';
-  document.getElementById('fBtnTxt').textContent='Analysing your profile…';
-  const scale=v('f-scale')||'10';
-  const pct=scale==='Percentage'?parseFloat(cgpa):(parseFloat(cgpa)/parseFloat(scale)*100).toFixed(1);
-  document.getElementById('resultsBody').innerHTML='<div class="empty-state"><div class="empty-icon" style="animation:rot 2s linear infinite;display:inline-block">⏳</div><div class="empty-title">Analysing '+country+' scholarships…</div><div class="empty-sub">This takes 8–12 seconds</div></div>';
-  const prompt=`You are an expert international scholarship advisor for Indian students applying to Master's programs abroad.
+function toast(msg, type = 'info', dur = 3500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), dur);
+}
 
-STUDENT PROFILE:
-- Degree: ${v('f-degree')} in CSE/relevant field
-- University: ${v('f-uni')||'Indian university'}
-- CGPA: ${cgpa}/${scale} (approx ${pct}%)
-- Target Country: ${country}
-- Desired Course: ${course}
-- IELTS: ${v('f-ielts')||'None'}
-- TOEFL: ${v('f-toefl')||'None'}
-- Experience: ${v('f-exp')||'None'}
-- Projects: ${v('f-projects')||'None'}
-- Publications: ${v('f-pubs')||'None'}
-- Extras: ${v('f-extra')||'None'}
+function gk() { return (document.getElementById('apiKey')?.value || '').trim(); }
+function v(id) { return (document.getElementById(id)?.value || '').trim(); }
 
-Identify ONLY 3 REAL, SPECIFIC scholarship programs this student is eligible for in ${country}. Be honest.
+/* ── Gemini API call ── */
+async function callGemini(prompt, jsonMode = false) {
+  const key = gk();
+  if (!key) throw new Error('Please paste your free Gemini API key at the top of the page. Get one free at aistudio.google.com/apikey');
 
-Return ONLY valid JSON, no markdown fences, no explanation:
-{"scholarships":[{"name":"Official scholarship name","university":"University or Multiple Universities","country":"${country}","coverageType":"Full or Partial","coverageDetails":"What is covered","monthlyStipend":"Amount in local currency and INR","eligibilityScore":integer 0-100,"scoreColor":"green or amber or red","cgpaRequirement":"Actual requirement or No fixed minimum","ieltsRequired":true or false,"ieltsAlternative":"MOI or other alternative or null","applicationDeadline":"Month Year or Rolling","applyLink":"Official URL","tags":["array","of","short","tags like Fully Funded No IELTS MOI Accepted Low Competition"],"studentStrengths":["2-3 specific strengths from THIS student profile for THIS scholarship"],"improvements":["2-3 concrete actions to improve chances for THIS scholarship"],"realityCheck":"1-2 honest sentences about realistic chances for this specific student"}]}`;
-  try{
-    const raw = await callGemini(prompt);
+  const url = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=' + key;
+
+  const body = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: jsonMode ? 0.3 : 0.82,
+      topP: 0.9,
+      topK: 40,
+      maxOutputTokens: jsonMode ? 2048 : 1500
+    }
+  };
+  if (jsonMode) body.generationConfig.responseMimeType = 'application/json';
+
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!resp.ok) {
+    const e = await resp.json().catch(() => ({}));
+    const msg = e?.error?.message || ('HTTP ' + resp.status);
+    if (resp.status === 400) throw new Error('Invalid API key. Get a free one at aistudio.google.com/apikey');
+    if (resp.status === 403) throw new Error('Gemini API access denied. Enable Generative Language API in Google Cloud Console.');
+    if (resp.status === 429) throw new Error('Rate limit reached — wait 1 minute (free tier: 15 req/min)');
+    throw new Error(msg);
+  }
+
+  const d = await resp.json();
+  return d?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+/* ── Scholarship Finder ── */
+async function findScholarships() {
+  const country = v('f-country'), course = v('f-course'), cgpa = v('f-cgpa');
+  if (!country) { toast('Please select a target country', 'error'); return; }
+  if (!course)  { toast('Please enter your desired course', 'error'); return; }
+  if (!cgpa)    { toast('Please enter your CGPA', 'error'); return; }
+
+  const btn = document.getElementById('finderBtn');
+  btn.disabled = true;
+  document.getElementById('fBtnIco').innerHTML = '<div class="spin"></div>';
+  document.getElementById('fBtnTxt').textContent = 'Analysing your profile…';
+
+  const scale = v('f-scale') || '10';
+  const pct = scale === 'Percentage'
+    ? parseFloat(cgpa)
+    : (parseFloat(cgpa) / parseFloat(scale) * 100).toFixed(1);
+
+  document.getElementById('resultsBody').innerHTML =
+    '<div class="empty-state"><div class="empty-icon" style="animation:rot 2s linear infinite;display:inline-block">⏳</div>' +
+    '<div class="empty-title">Analysing ' + country + ' scholarships…</div>' +
+    '<div class="empty-sub">This takes 8–12 seconds</div></div>';
+
+  const prompt =
+    'You are an expert international scholarship advisor for Indian students applying to Master\'s programs abroad.\n\n' +
+    'STUDENT PROFILE:\n' +
+    '- Degree: ' + v('f-degree') + ' in relevant field\n' +
+    '- University: ' + (v('f-uni') || 'Indian university') + '\n' +
+    '- CGPA: ' + cgpa + '/' + scale + ' (approx ' + pct + '%)\n' +
+    '- Target Country: ' + country + '\n' +
+    '- Desired Course: ' + course + '\n' +
+    '- IELTS: ' + (v('f-ielts') || 'None') + '\n' +
+    '- TOEFL: ' + (v('f-toefl') || 'None') + '\n' +
+    '- Experience: ' + (v('f-exp') || 'None') + '\n' +
+    '- Projects: ' + (v('f-projects') || 'None') + '\n' +
+    '- Publications: ' + (v('f-pubs') || 'None') + '\n' +
+    '- Extras: ' + (v('f-extra') || 'None') + '\n\n' +
+    'Identify ONLY 3 REAL, SPECIFIC scholarship programs this student is eligible for in ' + country + '. Be honest.\n\n' +
+    'Return ONLY valid JSON, no markdown fences, no explanation:\n' +
+    '{"scholarships":[{"name":"Official scholarship name","university":"University or Multiple Universities","country":"' + country + '","coverageType":"Full or Partial","coverageDetails":"What is covered","monthlyStipend":"Amount in local currency and INR","eligibilityScore":integer 0-100,"scoreColor":"green or amber or red","cgpaRequirement":"Actual requirement or No fixed minimum","ieltsRequired":true or false,"ieltsAlternative":"MOI or other alternative or null","applicationDeadline":"Month Year or Rolling","applyLink":"Official URL","tags":["array","of","short","tags like Fully Funded No IELTS MOI Accepted Low Competition"],"studentStrengths":["2-3 specific strengths from THIS student profile for THIS scholarship"],"improvements":["2-3 concrete actions to improve chances for THIS scholarship"],"realityCheck":"1-2 honest sentences about realistic chances for this specific student"}]}';
+
+  try {
+    const raw = await callGemini(prompt, true);
     let data;
-    try{data=JSON.parse(raw.replace(/```json\n?/gi,'').replace(/```\n?/gi,'').trim());}
-    catch(e){throw new Error('Could not parse AI response. Please try again.');}
-    const list = Array.isArray(data.scholarships)
-  ? data.scholarships.slice(0,3)
-  : [];
-    if(!list.length){document.getElementById('resultsBody').innerHTML='<div class="empty-state"><div class="empty-icon">😕</div><div class="empty-title">No results found</div><div class="empty-sub">Try adding more profile details.</div></div>';return;}
-    document.getElementById('results-sub').textContent=`${list.length} scholarships matched for your profile in ${country}`;
+    try {
+      data = JSON.parse(raw.replace(/```json\n?/gi, '').replace(/```\n?/gi, '').trim());
+    } catch(e) {
+      throw new Error('Could not parse AI response. Please try again.');
+    }
+    const list = Array.isArray(data.scholarships) ? data.scholarships.slice(0, 3) : [];
+    if (!list.length) {
+      document.getElementById('resultsBody').innerHTML =
+        '<div class="empty-state"><div class="empty-icon">😕</div>' +
+        '<div class="empty-title">No results found</div>' +
+        '<div class="empty-sub">Try adding more profile details.</div></div>';
+      return;
+    }
+    document.getElementById('results-sub').textContent =
+      list.length + ' scholarships matched for your profile in ' + country;
     renderCards(list);
-    toast(`Found ${list.length} scholarships!`,'success');
-  }catch(err){
-    toast('Error: '+err.message,'error',6000);
-    document.getElementById('resultsBody').innerHTML=`<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Error</div><div class="empty-sub">${err.message}</div></div>`;
-  }finally{
-    btn.disabled=false;
-    document.getElementById('fBtnIco').textContent='🔍';
-    document.getElementById('fBtnTxt').textContent='Find My Eligible Scholarships';
+    toast('Found ' + list.length + ' scholarships!', 'success');
+  } catch(err) {
+    toast('Error: ' + err.message, 'error', 6000);
+    document.getElementById('resultsBody').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">⚠️</div>' +
+      '<div class="empty-title">Error</div>' +
+      '<div class="empty-sub">' + err.message + '</div></div>';
+  } finally {
+    btn.disabled = false;
+    document.getElementById('fBtnIco').textContent = '🔍';
+    document.getElementById('fBtnTxt').textContent = 'Find My Eligible Scholarships';
   }
 }
 
-function renderCards(list){
-  const rb=document.getElementById('resultsBody');
-  rb.innerHTML='';
-  const wrap=document.createElement('div');
-  wrap.className='sch-list';
-  list.forEach((s,i)=>{
-    const score=Math.min(100,Math.max(0,parseInt(s.eligibilityScore)||0));
-    const col=s.scoreColor==='green'?'#22c55e':s.scoreColor==='amber'?'#f59e0b':'#ef4444';
-    const r=28,circ=2*Math.PI*r,dash=circ-(score/100)*circ;
-    const tags=(s.tags||[]).map(t=>{
-      const c=t.toLowerCase().includes('full')?'full':t.toLowerCase().includes('ielts')?'noielts':t.toLowerCase().includes('partial')?'partial':'neutral';
-      return `<span class="tag ${c}">${t}</span>`;
+function renderCards(list) {
+  const rb = document.getElementById('resultsBody');
+  rb.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'sch-list';
+
+  list.forEach((s, i) => {
+    const score = Math.min(100, Math.max(0, parseInt(s.eligibilityScore) || 0));
+    const col = s.scoreColor === 'green' ? '#22c55e' : s.scoreColor === 'amber' ? '#f59e0b' : '#ef4444';
+    const r = 28, circ = 2 * Math.PI * r;
+
+    const tags = (s.tags || []).map(t => {
+      const cl = t.toLowerCase().includes('full') ? 'full'
+               : t.toLowerCase().includes('ielts') ? 'noielts'
+               : t.toLowerCase().includes('partial') ? 'partial' : 'neutral';
+      return '<span class="tag ' + cl + '">' + t + '</span>';
     }).join('');
-    const strengths=(s.studentStrengths||[]).map(x=>`<div class="sch-tip"><div class="tdot" style="background:#22c55e"></div><span>${x}</span></div>`).join('');
-    const improve=(s.improvements||[]).map(x=>`<div class="sch-tip"><div class="tdot"></div><span>${x}</span></div>`).join('');
-    const c=document.createElement('div');
-    c.className='sch-card';c.style.animationDelay=(i*0.07)+'s';
-    c.innerHTML=`<div class="sch-top">
-      <div class="score-wrap">
-        <svg viewBox="0 0 68 68" width="68" height="68">
-          <circle class="ring-bg" cx="34" cy="34" r="${r}"/>
-          <circle class="ring-fg" cx="34" cy="34" r="${r}" stroke="${col}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}" id="ring-${i}"/>
-        </svg>
-        <div class="score-center">
-          <div class="score-num" style="color:${col}" id="snum-${i}">0%</div>
-          <div class="score-lbl">Chance</div>
-        </div>
-      </div>
-      <div class="sch-info">
-        <div class="sch-name">${s.name||'Scholarship'}</div>
-        <div class="sch-uni">🏛 ${s.university||''} &nbsp;&middot;&nbsp; ${s.country||''}</div>
-        <div class="sch-tags">${tags}</div>
-      </div>
-    </div>
-    <div class="sch-body">
-      <div class="sch-grid">
-        <div class="sch-stat"><div class="stat-lbl">Coverage</div><div class="stat-val">${s.coverageDetails||s.coverageType||'—'}</div></div>
-        <div class="sch-stat"><div class="stat-lbl">Monthly Stipend</div><div class="stat-val">${s.monthlyStipend||'—'}</div></div>
-        <div class="sch-stat"><div class="stat-lbl">CGPA Required</div><div class="stat-val">${s.cgpaRequirement||'—'}</div></div>
-        <div class="sch-stat"><div class="stat-lbl">IELTS</div><div class="stat-val">${s.ieltsRequired?'⚠ Required':'✅ Not Required'}${s.ieltsAlternative?'<br/><span style="font-size:0.73rem;color:var(--muted)">Alt: '+s.ieltsAlternative+'</span>':''}</div></div>
-      </div>
-      ${s.realityCheck?`<div class="reality-box">💬 ${s.realityCheck}</div>`:''}
-      ${strengths?`<div class="sch-sec">✅ Your Strengths Here</div><div class="sch-tips-list">${strengths}</div>`:''}
-      ${improve?`<div class="sch-sec">📈 How to Improve Your Chances</div><div class="sch-tips-list">${improve}</div>`:''}
-    </div>
-    <div class="sch-footer">
-      <div class="deadline">📅 Deadline: <strong>${s.applicationDeadline||'Check website'}</strong></div>
-      ${s.applyLink?`<a class="btn-apply" href="${s.applyLink}" target="_blank">Apply Now ↗</a>`:''}
-    </div>`;
+
+    const strengths = (s.studentStrengths || []).map(x =>
+      '<div class="sch-tip"><div class="tdot" style="background:#22c55e"></div><span>' + x + '</span></div>'
+    ).join('');
+
+    const improve = (s.improvements || []).map(x =>
+      '<div class="sch-tip"><div class="tdot"></div><span>' + x + '</span></div>'
+    ).join('');
+
+    const c = document.createElement('div');
+    c.className = 'sch-card';
+    c.style.animationDelay = (i * 0.07) + 's';
+    c.innerHTML =
+      '<div class="sch-top">' +
+        '<div class="score-wrap">' +
+          '<svg viewBox="0 0 68 68" width="68" height="68">' +
+            '<circle class="ring-bg" cx="34" cy="34" r="' + r + '"/>' +
+            '<circle class="ring-fg" cx="34" cy="34" r="' + r + '" stroke="' + col + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + circ + '" id="ring-' + i + '"/>' +
+          '</svg>' +
+          '<div class="score-center">' +
+            '<div class="score-num" style="color:' + col + '" id="snum-' + i + '">0%</div>' +
+            '<div class="score-lbl">Chance</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="sch-info">' +
+          '<div class="sch-name">' + (s.name || 'Scholarship') + '</div>' +
+          '<div class="sch-uni">🏛 ' + (s.university || '') + ' &nbsp;&middot;&nbsp; ' + (s.country || '') + '</div>' +
+          '<div class="sch-tags">' + tags + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sch-body">' +
+        '<div class="sch-grid">' +
+          '<div class="sch-stat"><div class="stat-lbl">Coverage</div><div class="stat-val">' + (s.coverageDetails || s.coverageType || '—') + '</div></div>' +
+          '<div class="sch-stat"><div class="stat-lbl">Monthly Stipend</div><div class="stat-val">' + (s.monthlyStipend || '—') + '</div></div>' +
+          '<div class="sch-stat"><div class="stat-lbl">CGPA Required</div><div class="stat-val">' + (s.cgpaRequirement || '—') + '</div></div>' +
+          '<div class="sch-stat"><div class="stat-lbl">IELTS</div><div class="stat-val">' +
+            (s.ieltsRequired ? '⚠ Required' : '✅ Not Required') +
+            (s.ieltsAlternative ? '<br/><span style="font-size:0.73rem;color:var(--muted)">Alt: ' + s.ieltsAlternative + '</span>' : '') +
+          '</div></div>' +
+        '</div>' +
+        (s.realityCheck ? '<div class="reality-box">💬 ' + s.realityCheck + '</div>' : '') +
+        (strengths ? '<div class="sch-sec">✅ Your Strengths Here</div><div class="sch-tips-list">' + strengths + '</div>' : '') +
+        (improve ? '<div class="sch-sec">📈 How to Improve Your Chances</div><div class="sch-tips-list">' + improve + '</div>' : '') +
+      '</div>' +
+      '<div class="sch-footer">' +
+        '<div class="deadline">📅 Deadline: <strong>' + (s.applicationDeadline || 'Check website') + '</strong></div>' +
+        (s.applyLink ? '<a class="btn-apply" href="' + s.applyLink + '" target="_blank">Apply Now ↗</a>' : '') +
+      '</div>';
+
     wrap.appendChild(c);
   });
+
   rb.appendChild(wrap);
-  requestAnimationFrame(()=>{
-    setTimeout(()=>{
-      list.forEach((s,i)=>{
-        const score=Math.min(100,Math.max(0,parseInt(s.eligibilityScore)||0));
-        const r=28,circ=2*Math.PI*r;
-        const ring=document.getElementById('ring-'+i);
-        if(ring)ring.style.strokeDashoffset=circ-(score/100)*circ;
-        const ne=document.getElementById('snum-'+i);
-        if(ne)countUp(ne,0,score,1200);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      list.forEach((s, i) => {
+        const score = Math.min(100, Math.max(0, parseInt(s.eligibilityScore) || 0));
+        const r = 28, circ = 2 * Math.PI * r;
+        const ring = document.getElementById('ring-' + i);
+        if (ring) ring.style.strokeDashoffset = circ - (score / 100) * circ;
+        const ne = document.getElementById('snum-' + i);
+        if (ne) countUp(ne, 0, score, 1200);
       });
-    },100);
+    }, 100);
   });
 }
 
-function countUp(el,from,to,dur){
-  const start=performance.now();
-  function step(now){
-    const p=Math.min((now-start)/dur,1),e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(from+(to-from)*e)+'%';
-    if(p<1)requestAnimationFrame(step);
+function countUp(el, from, to, dur) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * e) + '%';
+    if (p < 1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
 
-function buildEmailPrompt(){
-  const p={name:v('e-name')||'[Student Name]',cgpa:v('e-cgpa')||'N/A',degree:v('e-degree')||'B.Tech CSE',skills:v('e-skills'),projects:v('e-projects'),exp:v('e-exp'),goal:v('e-goal'),achieve:v('e-achieve')};
-  const t={uni:v('e-uni'),prog:v('e-program'),sch:v('e-scholarship'),extra:v('e-extra')};
-  const fmt='OUTPUT FORMAT strictly — no markdown, no extra text:\nSUBJECT: [subject line]\n\n[body only]';
-  if(emailType==='professor')return `You are an expert academic writing assistant helping Indian students get research supervision abroad.\n\nWrite a professional highly personalised cold email from ${p.name} to a professor requesting supervision.\n\nSTUDENT: Name:${p.name} | Degree:${p.degree} | CGPA:${p.cgpa} | Skills:${p.skills} | Projects:${p.projects} | Experience:${p.exp} | Research Interest:${p.goal} | Achievements:${p.achieve}\n\nTARGET: Professor:${v('e-profname')||'Professor'} | University:${t.uni} | Program:${t.prog} | Scholarship:${t.sch} | Research:${v('e-profwork')} | Paper admired:${v('e-profpaper')}\n\nINSTRUCTIONS:\n- Open with specific genuine compliment about THIS professor's actual research (never generic)\n- Link the professor's work to student's own project in 1-2 sentences (be specific)\n- Highlight 1-2 credentials most relevant to this professor's field\n- Mention scholarship if given\n- End with ONE clear polite ask (meeting/email/Zoom)\n- 200-260 words max, professional yet personal, not obsequious\n${t.extra?'- Extra: '+t.extra:''}\n\n${fmt}`;
-  if(emailType==='scholarship')return `You are a scholarship application expert. Write a compelling personalised cover letter.\n\nSTUDENT: Name:${p.name} | Degree:${p.degree} | CGPA:${p.cgpa} | Skills:${p.skills} | Projects:${p.projects} | Experience:${p.exp} | Career Goal:${p.goal} | Achievements:${p.achieve}\n\nTARGET: University:${t.uni} | Program:${t.prog} | Scholarship:${t.sch} | Why this country/uni:${v('e-why')}\n\nINSTRUCTIONS:\n- Open with a strong hook NOT I am writing to apply for\n- Flow: hook > background and projects > fit with university > why this scholarship and country > career impact\n- Frame any lower CGPA positively through project depth and real outcomes\n- Include one specific metric from the strongest project\n- Tone:${v('e-tone')||'formal'} | 430-530 words\n${t.extra?'- Extra: '+t.extra:''}\n\n${fmt}`;
-  return `You are an expert SOP writer. Write a compelling SOP opening for this student.\n\nSTUDENT: Name:${p.name} | Degree:${p.degree} | CGPA:${p.cgpa} | Projects:${p.projects} | Interest:${p.goal} | What sparked it:${v('e-spark')} | Career vision:${v('e-vision')}\n\nTARGET: University:${t.uni} | Program:${t.prog}\n\nINSTRUCTIONS:\n- Open with vivid specific anecdote connected to strongest project NOT Since childhood I was fascinated\n- Transition naturally to the program at this university\n- Foreshadow career vision without stating too explicitly\n- 180-260 words SOP opening only\n${t.extra?'- Extra: '+t.extra:''}\n\n${fmt}`;
+/* ── Email Generator ── */
+function buildEmailPrompt() {
+  const p = {
+    name: v('e-name') || '[Student Name]',
+    cgpa: v('e-cgpa') || 'N/A',
+    degree: v('e-degree') || 'B.Tech CSE',
+    skills: v('e-skills'),
+    projects: v('e-projects'),
+    exp: v('e-exp'),
+    goal: v('e-goal'),
+    achieve: v('e-achieve')
+  };
+  const t = {
+    uni: v('e-uni'),
+    prog: v('e-program'),
+    sch: v('e-scholarship'),
+    extra: v('e-extra')
+  };
+  const fmt = 'OUTPUT FORMAT strictly — no markdown, no extra text:\nSUBJECT: [subject line]\n\n[body only]';
+
+  if (emailType === 'professor') {
+    return 'You are an expert academic writing assistant helping Indian students get research supervision abroad.\n\n' +
+      'Write a professional highly personalised cold email from ' + p.name + ' to a professor requesting supervision.\n\n' +
+      'STUDENT: Name:' + p.name + ' | Degree:' + p.degree + ' | CGPA:' + p.cgpa +
+      ' | Skills:' + p.skills + ' | Projects:' + p.projects +
+      ' | Experience:' + p.exp + ' | Research Interest:' + p.goal + ' | Achievements:' + p.achieve + '\n\n' +
+      'TARGET: Professor:' + (v('e-profname') || 'Professor') + ' | University:' + t.uni +
+      ' | Program:' + t.prog + ' | Scholarship:' + t.sch +
+      ' | Research:' + v('e-profwork') + ' | Paper admired:' + v('e-profpaper') + '\n\n' +
+      'INSTRUCTIONS:\n' +
+      '- Open with specific genuine compliment about THIS professor\'s actual research (never generic)\n' +
+      '- Link the professor\'s work to student\'s own project in 1-2 sentences (be specific)\n' +
+      '- Highlight 1-2 credentials most relevant to this professor\'s field\n' +
+      '- Mention scholarship if given\n' +
+      '- End with ONE clear polite ask (meeting/email/Zoom)\n' +
+      '- 200-260 words max, professional yet personal, not obsequious\n' +
+      (t.extra ? '- Extra: ' + t.extra + '\n' : '') +
+      '\n' + fmt;
+  }
+
+  if (emailType === 'scholarship') {
+    return 'You are a scholarship application expert. Write a compelling personalised cover letter.\n\n' +
+      'STUDENT: Name:' + p.name + ' | Degree:' + p.degree + ' | CGPA:' + p.cgpa +
+      ' | Skills:' + p.skills + ' | Projects:' + p.projects +
+      ' | Experience:' + p.exp + ' | Career Goal:' + p.goal + ' | Achievements:' + p.achieve + '\n\n' +
+      'TARGET: University:' + t.uni + ' | Program:' + t.prog + ' | Scholarship:' + t.sch +
+      ' | Why this country/uni:' + v('e-why') + '\n\n' +
+      'INSTRUCTIONS:\n' +
+      '- Open with a strong hook NOT "I am writing to apply for"\n' +
+      '- Flow: hook > background and projects > fit with university > why this scholarship and country > career impact\n' +
+      '- Frame any lower CGPA positively through project depth and real outcomes\n' +
+      '- Include one specific metric from the strongest project\n' +
+      '- Tone:' + (v('e-tone') || 'formal') + ' | 430-530 words\n' +
+      (t.extra ? '- Extra: ' + t.extra + '\n' : '') +
+      '\n' + fmt;
+  }
+
+  return 'You are an expert SOP writer. Write a compelling SOP opening for this student.\n\n' +
+    'STUDENT: Name:' + p.name + ' | Degree:' + p.degree + ' | CGPA:' + p.cgpa +
+    ' | Projects:' + p.projects + ' | Interest:' + p.goal +
+    ' | What sparked it:' + v('e-spark') + ' | Career vision:' + v('e-vision') + '\n\n' +
+    'TARGET: University:' + t.uni + ' | Program:' + t.prog + '\n\n' +
+    'INSTRUCTIONS:\n' +
+    '- Open with vivid specific anecdote connected to strongest project NOT "Since childhood I was fascinated"\n' +
+    '- Transition naturally to the program at this university\n' +
+    '- Foreshadow career vision without stating too explicitly\n' +
+    '- 180-260 words SOP opening only\n' +
+    (t.extra ? '- Extra: ' + t.extra + '\n' : '') +
+    '\n' + fmt;
 }
 
-async function generateEmail(){
-  if(!v('e-uni')){toast('Please enter the target university','error');return;}
-  const btn=document.getElementById('emailBtn');
-  btn.disabled=true;
-  document.getElementById('eBtnIco').innerHTML='<div class="spin"></div>';
-  document.getElementById('eBtnTxt').textContent='Writing your email…';
-  document.getElementById('emailEmpty').style.display='none';
-  document.getElementById('emailReady').style.display='block';
-  document.getElementById('subjectVal').textContent='…';
-  document.getElementById('bodyVal').textContent='Generating…';
-  try{
-    const raw=await callGemini(buildEmailPrompt());
-    const lines=raw.split('\n');
-    let subject='',bodyStart=0;
-    for(let i=0;i<lines.length;i++){
-      if(lines[i].toUpperCase().startsWith('SUBJECT:')){
-        subject=lines[i].replace(/^subject:\s*/i,'').trim();
-        bodyStart=i+1;
-        while(bodyStart<lines.length&&!lines[bodyStart].trim())bodyStart++;
+async function generateEmail() {
+  if (!v('e-uni')) { toast('Please enter the target university', 'error'); return; }
+  const btn = document.getElementById('emailBtn');
+  btn.disabled = true;
+  document.getElementById('eBtnIco').innerHTML = '<div class="spin"></div>';
+  document.getElementById('eBtnTxt').textContent = 'Writing your email…';
+  document.getElementById('emailEmpty').style.display = 'none';
+  document.getElementById('emailReady').style.display = 'block';
+  document.getElementById('subjectVal').textContent = '…';
+  document.getElementById('bodyVal').textContent = 'Generating…';
+
+  try {
+    const raw = await callGemini(buildEmailPrompt());
+    const lines = raw.split('\n');
+    let subject = '', bodyStart = 0;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].toUpperCase().startsWith('SUBJECT:')) {
+        subject = lines[i].replace(/^subject:\s*/i, '').trim();
+        bodyStart = i + 1;
+        while (bodyStart < lines.length && !lines[bodyStart].trim()) bodyStart++;
         break;
       }
     }
-    genSubject=subject||`Application — ${v('e-program')} | ${v('e-uni')}`;
-    genBody=lines.slice(bodyStart).join('\n').trim();
-    document.getElementById('subjectVal').textContent=genSubject;
-    document.getElementById('bodyVal').textContent=genBody;
-    const wc=genBody.split(/\s+/).filter(Boolean).length;
-    document.getElementById('wcVal').textContent=`${wc} words`;
-    toast('Email generated!','success');
-  }catch(err){
-    toast('Error: '+err.message,'error',6000);
-    document.getElementById('bodyVal').textContent='';
-    document.getElementById('subjectVal').textContent='';
-  }finally{
-    btn.disabled=false;
-    document.getElementById('eBtnIco').textContent='✨';
-    document.getElementById('eBtnTxt').textContent='Generate Personalised Email';
+    genSubject = subject || ('Application — ' + v('e-program') + ' | ' + v('e-uni'));
+    genBody = lines.slice(bodyStart).join('\n').trim();
+    document.getElementById('subjectVal').textContent = genSubject;
+    document.getElementById('bodyVal').textContent = genBody;
+    const wc = genBody.split(/\s+/).filter(Boolean).length;
+    document.getElementById('wcVal').textContent = wc + ' words';
+    toast('Email generated!', 'success');
+  } catch(err) {
+    toast('Error: ' + err.message, 'error', 6000);
+    document.getElementById('bodyVal').textContent = '';
+    document.getElementById('subjectVal').textContent = '';
+  } finally {
+    btn.disabled = false;
+    document.getElementById('eBtnIco').textContent = '✨';
+    document.getElementById('eBtnTxt').textContent = 'Generate Personalised Email';
   }
 }
 
-function copyEmail(){
-  navigator.clipboard.writeText(`Subject: ${genSubject}\n\n${genBody}`).then(()=>{
-    const b=document.getElementById('copyBtn');
-    b.textContent='✅ Copied!';b.classList.add('copied');
-    setTimeout(()=>{b.textContent='📋 Copy';b.classList.remove('copied');},2400);
-    toast('Copied!','success');
-  }).catch(()=>toast('Select and copy manually','error'));
+function copyEmail() {
+  navigator.clipboard.writeText('Subject: ' + genSubject + '\n\n' + genBody).then(() => {
+    const b = document.getElementById('copyBtn');
+    b.textContent = '✅ Copied!';
+    b.classList.add('copied');
+    setTimeout(() => { b.textContent = '📋 Copy'; b.classList.remove('copied'); }, 2400);
+    toast('Copied!', 'success');
+  }).catch(() => toast('Select and copy manually', 'error'));
 }
 
-function dlEmail(){
-  const n=(v('e-uni')||'university').replace(/[^a-z0-9]/gi,'_');
-  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([`Subject: ${genSubject}\n\n${genBody}`],{type:'text/plain'})),download:`ScholarMail_${n}_${emailType}.txt`});
-  a.click();URL.revokeObjectURL(a.href);
-  toast('Saved!','success');
+function dlEmail() {
+  const n = (v('e-uni') || 'university').replace(/[^a-z0-9]/gi, '_');
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(new Blob(['Subject: ' + genSubject + '\n\n' + genBody], { type: 'text/plain' })),
+    download: 'ScholarMail_' + n + '_' + emailType + '.txt'
+  });
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Saved!', 'success');
 }
 
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')generateEmail();});
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generateEmail();
+});
 </script>
 </body>
 </html>
