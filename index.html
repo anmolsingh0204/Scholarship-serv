@@ -540,6 +540,7 @@ function toast(msg,type='info',dur=3500){
 function gk(){return(document.getElementById('apiKey')?.value||'').trim();}
 function v(id){return(document.getElementById(id)?.value||'').trim();}
 
+<script>
 async function callGemini(prompt){
 
   const key = gk();
@@ -548,14 +549,17 @@ async function callGemini(prompt){
     throw new Error("Please paste your Gemini API key");
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
+  const url =
+    `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${key}`;
 
   const response = await fetch(url,{
     method:"POST",
     headers:{
       "Content-Type":"application/json"
     },
+
     body:JSON.stringify({
+
       contents:[
         {
           parts:[
@@ -564,20 +568,52 @@ async function callGemini(prompt){
             }
           ]
         }
-      ]
+      ],
+
+      generationConfig:{
+        temperature:0.7,
+        topP:0.9,
+        topK:40,
+        maxOutputTokens:1500
+      }
+
     })
   });
 
   const data = await response.json();
 
   if(!response.ok){
+
+    console.log("Gemini Error:", data);
+
+    if(response.status === 400){
+      throw new Error(
+        "Invalid Gemini API key or request."
+      );
+    }
+
+    if(response.status === 403){
+      throw new Error(
+        "Gemini API access denied. Enable Generative Language API in Google Cloud."
+      );
+    }
+
+    if(response.status === 429){
+      throw new Error(
+        "Free Gemini quota reached. Wait 1 minute and try again."
+      );
+    }
+
     throw new Error(
       data?.error?.message || "Gemini API request failed"
     );
   }
 
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  return (
+    data?.candidates?.[0]?.content?.parts?.[0]?.text || ""
+  );
 }
+</script>
 
 async function findScholarships(){
   const country=v('f-country'),course=v('f-course'),cgpa=v('f-cgpa');
@@ -606,16 +642,18 @@ STUDENT PROFILE:
 - Publications: ${v('f-pubs')||'None'}
 - Extras: ${v('f-extra')||'None'}
 
-Identify 4-6 REAL, SPECIFIC scholarship programs this student is eligible for in ${country}. Be honest.
+Identify ONLY 3 REAL, SPECIFIC scholarship programs this student is eligible for in ${country}. Be honest.
 
 Return ONLY valid JSON, no markdown fences, no explanation:
 {"scholarships":[{"name":"Official scholarship name","university":"University or Multiple Universities","country":"${country}","coverageType":"Full or Partial","coverageDetails":"What is covered","monthlyStipend":"Amount in local currency and INR","eligibilityScore":integer 0-100,"scoreColor":"green or amber or red","cgpaRequirement":"Actual requirement or No fixed minimum","ieltsRequired":true or false,"ieltsAlternative":"MOI or other alternative or null","applicationDeadline":"Month Year or Rolling","applyLink":"Official URL","tags":["array","of","short","tags like Fully Funded No IELTS MOI Accepted Low Competition"],"studentStrengths":["2-3 specific strengths from THIS student profile for THIS scholarship"],"improvements":["2-3 concrete actions to improve chances for THIS scholarship"],"realityCheck":"1-2 honest sentences about realistic chances for this specific student"}]}`;
   try{
-    const raw=await callGemini(prompt,true);
+    const raw = await callGemini(prompt);
     let data;
     try{data=JSON.parse(raw.replace(/```json\n?/gi,'').replace(/```\n?/gi,'').trim());}
     catch(e){throw new Error('Could not parse AI response. Please try again.');}
-    const list=data.scholarships||[];
+    const list = Array.isArray(data.scholarships)
+  ? data.scholarships.slice(0,3)
+  : [];
     if(!list.length){document.getElementById('resultsBody').innerHTML='<div class="empty-state"><div class="empty-icon">😕</div><div class="empty-title">No results found</div><div class="empty-sub">Try adding more profile details.</div></div>';return;}
     document.getElementById('results-sub').textContent=`${list.length} scholarships matched for your profile in ${country}`;
     renderCards(list);
